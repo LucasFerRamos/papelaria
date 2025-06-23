@@ -17,7 +17,7 @@ export class LoginComponent {
   public obj: Cliente = new Cliente();
 
   // constructor(private router: Router) {}
-  constructor(private service:ClienteService){}
+  constructor(private router: Router, private service:ClienteService){}
 
   public entrar() {
     this.service.fazerLogin(this.obj).subscribe({
@@ -27,7 +27,7 @@ export class LoginComponent {
         } else {
           this.mensagem = "";
           localStorage.setItem("cliente", JSON.stringify(data));
-          location.href = "cadastro";
+          this.router.navigate(["/conta"]);
         }
         },
         error:(error)=>{

@@ -1,0 +1,18 @@
+/* Estilos gerais */
+html, body {
+  height: 100%; /* Garante que o body ocupe 100% da altura da tela */
+  margin: 0;    /* Remove margens padrão */
+}
+
+body {
+  display: flex;
+  flex-direction: column; /* Faz com que o conteúdo e o footer fiquem em coluna */
+}
+
+main {
+  flex: 1; /* Faz o conteúdo ocupar o espaço restante */
+}
+
+footer {
+  margin-top: auto; /* Garante que o footer vá para o final da tela */
+}

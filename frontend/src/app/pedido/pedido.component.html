@@ -1,0 +1,119 @@
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Finalizar Pedido</h4>
+    </div>
+    <div class="card-body">
+
+      <div class="alert alert-danger" *ngIf="mensagem.length > 0">
+        {{mensagem}}
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h5 class="mb-3">Informações de Entrega</h5>
+          <form>
+            <div class="row">
+              <div class="col-12 mb-3">
+                <label class="form-label">Endereço Completo:</label>
+                <input class="form-control" type="text" [(ngModel)]="endereco" name="endereco"
+                  placeholder="Rua, número (Ex: Rua 123)">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Bairro:</label>
+                <input class="form-control" type="text" [(ngModel)]="bairro" name="bairro"
+                  placeholder="bairro">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Complemento (Opcional):</label>
+                <input class="form-control" type="text" [(ngModel)]="complemento" name="complemento"
+                  placeholder="Ex: Apt 001, Bloco B">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Cidade:</label>
+                <input class="form-control" type="text" [(ngModel)]="cidade" name="cidade"
+                  placeholder="Sua cidade">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Estado (UF):</label>
+                <input class="form-control" type="text" [(ngModel)]="estado" name="estado"
+                  placeholder="Ex: SP, RJ">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 mb-3">
+                <label class="form-label">CEP:</label>
+                <input class="form-control" type="text" [(ngModel)]="cep" name="cep"
+                  placeholder="Ex: 00000-000">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 mb-3">
+                <label class="form-label">Observações (Opcional):</label>
+                <textarea class="form-control" rows="2" [(ngModel)]="observacoes" name="observacoes"
+                  placeholder="Ex: Deixar na portaria, campainha não funciona"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-md-6">
+          <h5 class="mb-3">Itens do Pedido</h5>
+          <div class="table-responsive" *ngIf="lista.length > 0">
+            <table class="table table-striped">
+              <thead class="table-light">
+                <tr>
+                  <th>Produto</th>
+                  <th>Nome</th>
+                  <th class="text-end">Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of lista">
+                  <td>
+                    <img [src]="item.imagem" height="60px" class="img-thumbnail">
+                  </td>
+                  <td>{{item.nome}}</td>
+                  <td class="text-end">R$ {{item.valor.toFixed(2).replace('.', ',')}}</td>
+                </tr>
+              </tbody>
+              <tfoot class="table-secondary">
+                <tr>
+                  <td colspan="2" class="fw-bold">Total do Pedido</td>
+                  <td class="text-end fw-bold">R$ {{totalCesta.toFixed(2).replace('.', ',')}}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <div class="alert alert-info" *ngIf="lista.length === 0">
+            Seu pedido está vazio.
+          </div>
+        </div>
+      </div>
+
+        <div class="d-flex flex-column flex-sm-row justify-content-between mt-4 gap-3">
+        <a routerLink="/cesta" class="btn btn-outline-secondary mb-2 mb-sm-0 w-100 w-sm-auto">
+            <i class="bi bi-arrow-left"></i> Voltar para a Cesta
+        </a>
+        <button class="btn btn-success w-100 w-sm-auto" (click)="finalizarPedido()" [disabled]="lista.length === 0 || (!endereco.trim() && !(bairro.trim() && cep.trim() && cidade.trim() && estado.trim()))">
+            <i class="bi bi-check-circle"></i> Finalização do Pedido
+        </button>
+        </div>
+
+        <div *ngIf="codigoPedido" class="mt-4 p-3 bg-light border rounded">
+            <h5>Pedido Finalizado!</h5>
+            <p>Seu código de pedido é: <strong>{{codigoPedido}}</strong></p>
+        </div>
+
+    </div>
+  </div>
+</div>

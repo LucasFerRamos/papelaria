@@ -1,37 +1,27 @@
 import { Component } from '@angular/core';
 import { Cliente } from '../model/cliente';
+import { ClienteService } from '../service/cliente.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
-import { ClienteService } from '../service/cliente.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-cadastro',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
-  templateUrl: './cadastro.component.html',
-  styleUrls: ['./cadastro.component.css']
+  selector: 'app-conta',
+  imports: [CommonModule, FormsModule, RouterModule],
+  templateUrl: './conta.component.html',
+  styleUrl: './conta.component.css'
 })
-export class CadastroComponent {
-  public obj: Cliente = new Cliente();
-  public mensagem: String = "";
-  public confirmaSenha: string = "";
+export class ContaComponent {
+    public obj: Cliente = new Cliente();
+    public mensagem: String = "";
+    public confirmaSenha: string = "";
+    
 
-  public constructor(private service: ClienteService) {
-  }
-
-
-  public gravar() {
-    this.service.gravar(this.obj).subscribe({
-       next:(data)=>{
-          this.mensagem = "Cliente cadastrado com sucesso!";
-        },
-        error:(error)=>{
-          this.mensagem = "Ocorreu um erro, tente mais tarde!";
-        } 
-    });
-
+  public constructor(private router: Router, private service: ClienteService) {
+    let json = localStorage.getItem("cliente");
+    if(json!=null){
+      this.obj = JSON.parse(json);
+    }
   }
   public alterar(){
    this.service.alterar(this.obj).subscribe({
@@ -51,6 +41,9 @@ export class CadastroComponent {
   this.obj.cpf = "";
   this.obj.senha = "";
  }
+ public retornar(){
+  this.router.navigate(["/cadastro"]);
+ }
 
  public remover(){
     this.service.apagar(this.obj).subscribe({
@@ -62,6 +55,5 @@ export class CadastroComponent {
           this.mensagem = "Ocorreu um erro, tente mais tarde!";
         } 
     });
-}
-
+  }
 }

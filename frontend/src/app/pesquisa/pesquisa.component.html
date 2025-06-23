@@ -1,53 +1,29 @@
-<div class="papelaria-vitrine">
-  <div class="banner-principal mb-4">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-md-6">
-          <h1 class="display-4">Papelaria do Tempo</h1>
-          <p class="lead">Materiais clássicos para escola, escritório e arte, com a qualidade que atravessa gerações.</p>
-          <p>Entrega ágil e segura, levando o charme do passado para todo o Brasil.</p>
-        </div>
-        <div class="col-md-6 text-end">
-          <img [src]="'https://images.unsplash.com/photo-1505744386214-51dba16a26fc?q=80&w=1306&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'" alt="Banner da Papelaria - TInteiro" class="img-fluid rounded shadow">
-        </div>
-      </div>
-    </div>
-    <div class="citacao-container">
-      <div class="citacao-box">
-        <p class="citacao-texto">"Com a pena mergulhada no tinteiro, deixo que a tinta conte histórias que a alma ainda não teve coragem de dizer."</p>
-        <p class="citacao-autor">- Das memórias de um tinteiro esquecido.</p>
-      </div>
-    </div>
-  </div>
 
+<div class="papelaria-vitrine">
   <!--categorias -->
   <div class="container">
     <div class="category-filter mb-4">
       <div class="d-flex justify-content-between align-items-center flex-wrap">
-        <h2>Nossos Produtos</h2>
-        <div class="btn-group d-flex flex-wrap ml-auto">
-          <button *ngFor="let cat of categorias" 
-                  class="btn my-2" 
-                  [ngClass]="categoriaSelecionada === cat.id ? 'btn-primary' : 'btn-outline-primary'"
-                  (click)="filtrarPorCategoria(cat.id)">
-            {{cat.nome}}
-          </button>
-        </div>
+        <h2>Pesquisa por: <b>{{termoBusca}}</b></h2>
       </div>
     </div>
 
     <div *ngIf="mensagem" class="alert alert-info mb-4">{{mensagem}}</div>
 
     <!-- Lista de produtos -->
-    <div class="row g-4" *ngIf="getProdutosFiltrados().length > 0">
-      <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let obj of getProdutosFiltrados()">
+    <div class="row g-4">
+      <div *ngFor="let obj of lista" class="col-lg-4 col-md-6 col-sm-12">
         <div class="card h-100 product-card">
-          <div class="product-badge" *ngIf="obj.valorPromo < obj.valor">
-            <span class="badge bg-danger" *ngIf="obj.quantidade > 0" >Oferta!</span>
+
+          <div class="product-badge" *ngIf="obj.valorPromo < obj.valor && obj.quantidade > 0">
+            <span class="badge bg-danger">Oferta!</span>
           </div>
+
           <div class="product-badge out-of-stock" *ngIf="obj.quantidade <= 0">
             <span class="badge bg-secondary">Sem estoque</span>
           </div>
+
+
           <img class="card-img-top product-img" [src]="obj.imagem" alt="{{obj.nome}}" (click)="carregar(obj)">
           <div class="card-body d-flex flex-column">
             <div class="card-category text-muted small mb-2">
@@ -55,7 +31,9 @@
                 obj.categoria === 'escritorio' ? 'Escritório' : 
                 obj.categoria === 'arte' ? 'Artes e Pintura' : ''}}
             </div>
+
             <h5 class="card-title">{{obj.nome}}</h5>
+            
             <p class="card-text flex-grow-1">{{obj.descritivo}}</p>
             
             <div class="product-price mb-3" *ngIf="obj.quantidade > 0" >
@@ -84,11 +62,6 @@
           </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Mensagem quando não há produtos -->
-    <div class="alert alert-warning" *ngIf="getProdutosFiltrados().length === 0">
-      Não encontramos produtos nesta categoria. Tente outra opção.
     </div>
   </div>
 </div>
